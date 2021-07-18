@@ -1,12 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
+import 'chopper/api_client_service.dart';
 
 Future<void> main() async {
   // Firebase初期化
   await Firebase.initializeApp();
+
+  final ApiClientService auth = ApiClientService();
+  auth.collApi("5");
+
   runApp(MyApp());
 }
 
