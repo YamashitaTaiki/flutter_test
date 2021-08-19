@@ -1,13 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'gameMain/gameMain.dart';
+
 
 // チャット画面用Widget
-class ChatPage extends StatelessWidget  {
-  // 引数からユーザー情報を受け取れるようにする
-  ChatPage(this.user);
+class ChatPage extends StatelessWidget   {
   // ユーザー情報
   final User user;
+  // 引数からユーザー情報を受け取れるようにする
+  ChatPage(this.user);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +34,7 @@ class ChatPage extends StatelessWidget  {
               builder: (context, snapshot) {
                 // データが取得できた場合
                 if (snapshot.hasData) {
-                  final List<DocumentSnapshot> documents = snapshot.data.docs;
+                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
                   // 取得した投稿メッセージ一覧を元にリスト表示
                   return ListView(
                     children: documents.map((document) {
@@ -51,14 +54,18 @@ class ChatPage extends StatelessWidget  {
               },
             ),
           ),
+          Container(
+            width: double.infinity,
+            child: _ElevatedButtonDemo(),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
           /* --- 省略 --- */
-          // チャット画面に遷移＋ログイン画面を破棄
-          await Navigator.of(context).pushReplacement(
+          // チャット画面に遷移
+          await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               return AddPostPage(user);
             }),
@@ -135,6 +142,32 @@ class _AddPostPageState extends State<AddPostPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ElevatedButtonDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElevatedButton.icon(
+            icon: const Icon(Icons.add, size: 18),
+            label: Text("test 2"),
+            onPressed: () async {
+              /* --- 省略 --- */
+              // チャット画面に遷移
+              await Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return TRexGameWrapper();
+                }),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
