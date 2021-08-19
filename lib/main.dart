@@ -2,14 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'chat.dart';
-import 'chopper/api_client_service.dart';
+//import 'chopper/api_client_service.dart';
 
 Future<void> main() async {
   // Firebase初期化
   await Firebase.initializeApp();
 
-  final ApiClientService auth = ApiClientService();
-  auth.collApi("5");
+  //apiを叩くテスト。コメントアウト
+  //final ApiClientService auth = ApiClientService();
+  //auth.collApi("5");
 
   runApp(MyApp());
 }
@@ -82,7 +83,7 @@ class _MyAuthPageState extends State<MyAuthPage> {
                     );
 
                     // 登録したユーザー情報
-                    final User user = result.user;
+                    final User user = result.user!;
                     setState(() {
                       infoText = "登録OK：${user.email}";
                     });
@@ -109,7 +110,7 @@ class _MyAuthPageState extends State<MyAuthPage> {
                     // チャット画面に遷移＋ログイン画面を破棄
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
-                        return ChatPage(result.user);
+                        return ChatPage(result.user!);
                       }),
                     );
                   } catch (e) {
